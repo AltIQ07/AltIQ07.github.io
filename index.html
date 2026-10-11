@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Altiq Studio</title>
+<meta name="description" content="Altiq Studio: ready-to-use creative assets for streamers and creators. Plus Luna's links and picks.">
+<meta property="og:title" content="Altiq Studio">
+<meta property="og:description" content="Pro-looking creative assets in minutes.">
+<meta property="og:image" content="neon-cover.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b14;--card:#13131f;--fg:#f2f2f8;--mut:#a3a3c2;--pink:#ff2d7e;--cyan:#22e0ff;--bd:#ffffff14}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(120% 70% at 50% 0%,#1d1235 0%,var(--bg) 60%);background-color:var(--bg);color:var(--fg);font:16px/1.5 Inter,system-ui,sans-serif;min-height:100vh}
+.wrap{max-width:560px;margin:0 auto;padding:28px 16px 40px}
+header{text-align:center;margin-bottom:22px}
+.logo{font-family:Oswald,"Arial Narrow",Impact,sans-serif;font-weight:700;letter-spacing:6px;font-size:28px;text-shadow:0 0 18px #a78bfa88}
+.logo span{color:var(--pink)}
+.tag{color:var(--mut);margin-top:2px}
+.luna{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+.av{width:64px;height:64px;border-radius:50%;flex:none;background:linear-gradient(135deg,var(--pink),var(--cyan));display:grid;place-items:center;font-family:Oswald,"Arial Narrow",Impact,sans-serif;font-size:28px;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.luna b{font-family:Oswald,"Arial Narrow",Impact,sans-serif;letter-spacing:1px;font-size:18px}
+.ai{display:inline-block;font-size:11px;border:1px solid var(--cyan);color:var(--cyan);border-radius:10px;padding:0 7px;margin-left:6px;vertical-align:2px}
+.luna p{margin:2px 0 0;color:var(--mut);font-size:14px}
+.btn{display:block;text-align:center;text-decoration:none;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:13px;margin:8px 0;font-weight:600;transition:border-color .2s,transform .2s}
+.btn:hover,.btn:focus-visible{border-color:var(--cyan);transform:translateY(-1px)}
+.btn.pri{background:var(--pink);border-color:var(--pink);color:#fff}
+h2{font-family:Oswald,"Arial Narrow",Impact,sans-serif;letter-spacing:3px;font-size:16px;color:var(--mut);margin:26px 0 8px;font-weight:500}
+.prod{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.prod img{display:block;width:100%;height:auto}
+.prod .b{padding:14px}
+.prod h3{margin:0;font-family:Oswald,"Arial Narrow",Impact,sans-serif;letter-spacing:1px;font-weight:700;font-size:20px}
+.prod p{margin:4px 0 10px;color:var(--mut);font-size:14px}
+.price{font-family:Oswald,"Arial Narrow",Impact,sans-serif;font-size:20px;color:var(--cyan)}
+.soon{display:block;text-align:center;padding:12px;border-radius:12px;border:1px dashed var(--bd);color:var(--mut)}
+.pick{display:flex;justify-content:space-between;gap:10px;align-items:center}
+footer{margin-top:30px;color:var(--mut);font-size:12px;text-align:center}
+footer p{margin:6px 0}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header><div class="logo">ALTIQ <span>STUDIO</span></div><div class="tag" id="tagline"></div></header>
+  <section class="luna" aria-label="Luna">
+    <div class="av" id="avatar">L</div>
+    <div><b id="lname">Luna</b><span class="ai">AI creator</span><p id="lbio"></p></div>
+  </section>
+  <nav id="links" aria-label="Luna's links"></nav>
+  <h2>SHOP</h2>
+  <section id="products"></section>
+  <section id="picks-wrap" hidden><h2 id="picks-title">LUNA'S SETUP</h2><div id="picks"></div></section>
+  <footer>
+    <p>Luna is an AI-generated character created by Altiq Studio.</p>
+    <p id="aff-note" hidden>Some links are affiliate links: we may earn a commission at no extra cost to you. As an Amazon Associate we earn from qualifying purchases.</p>
+    <p>© <span id="yr"></span> Altiq Studio</p>
+  </footer>
+</main>
+<script>
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const safe = u => /^https:\/\//.test(u || "") ? u : "";
+document.getElementById("yr").textContent = new Date().getFullYear();
+fetch("store.json", {cache: "no-store"}).then(r => r.json()).then(d => {
+  document.getElementById("tagline").textContent = d.tagline;
+  document.getElementById("lname").textContent = d.luna.name;
+  document.getElementById("lbio").textContent = d.luna.bio;
+  if (d.luna.avatar) document.getElementById("avatar").innerHTML = `<img src="${esc(d.luna.avatar)}" alt="Luna, AI creator">`;
+  document.getElementById("links").innerHTML = d.luna.links.filter(l => safe(l.url))
+    .map(l => `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
+  document.getElementById("products").innerHTML = d.products.map(p => `
+    <article class="prod">${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy">` : ""}
+      <div class="b"><h3>${esc(p.title)}</h3><p>${esc(p.blurb)}</p>
+      <div class="pick"><span class="price">${esc(p.price)}</span></div>
+      ${safe(p.url) && p.status !== "coming_soon" ? `<a class="btn pri" href="${esc(p.url)}" target="_blank" rel="noopener">Get it</a>` : `<span class="soon">Dropping soon</span>`}
+      </div></article>`).join("");
+  const items = (d.picks && d.picks.items || []).filter(i => safe(i.url));
+  if (items.length) {
+    document.getElementById("picks-wrap").hidden = false;
+    document.getElementById("aff-note").hidden = false;
+    document.getElementById("picks-title").textContent = (d.picks.title || "Picks").toUpperCase();
+    document.getElementById("picks").innerHTML = items.map(i =>
+      `<a class="btn" href="${esc(i.url)}" target="_blank" rel="sponsored noopener">${esc(i.label)}${i.note ? ` <span style="color:var(--mut);font-weight:400">· ${esc(i.note)}</span>` : ""}</a>`).join("");
+  }
+}).catch(() => { document.getElementById("products").innerHTML = '<span class="soon">Shop loading problem. Refresh in a moment.</span>'; });
+</script>
+</body>
+</html>
