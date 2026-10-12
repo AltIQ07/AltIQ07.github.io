@@ -14,6 +14,14 @@
   },
   "products": [
     {
+      "title": "FREE Stream Panel Sampler (7 styles)",
+      "blurb": "7 free Twitch & Kick panels, one from each style. Try them on your channel, then grab a full set. Launch week: every full pack 60% off, all 7 for $14.99 until Oct 19.",
+      "price": "Free",
+      "image": "sampler-cover.jpg",
+      "url": "https://altiq.itch.io/free-stream-panel-sampler",
+      "status": "live"
+    },
+    {
       "title": "Neon Crime-City Stream Panels",
       "blurb": "16 panels for Twitch & Kick. Hot pink and cyan neon on a dark grid. Made for GTA/RP, shooters and night-city vibes.",
       "price": "$5.49",
