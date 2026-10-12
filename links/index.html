@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luna · links</title>
+<meta name="description" content="Luna, an AI-generated creator from Chicago. Free stream panels, shop and socials.">
+<style>
+:root{--bg1:#120a1f;--bg2:#05070d;--card:#ffffff10;--bd:#ffffff22;--ink:#f5f3ff;--mut:#c4b5fd;--acc:#f472b6}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:radial-gradient(120% 80% at 50% 0%,#3b0f4d 0%,var(--bg1) 45%,var(--bg2) 100%);display:flex;justify-content:center}
+main{width:100%;max-width:480px;padding:36px 16px 40px;text-align:center}
+.av{width:104px;height:104px;border-radius:50%;object-fit:cover;border:3px solid #f9a8d4;box-shadow:0 0 30px #f472b655}
+h1{font-size:24px;margin:12px 0 2px;letter-spacing:.5px}
+.h{color:var(--mut);font-size:14px}
+.ai{display:inline-block;margin:10px 0 6px;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid #c4b5fd88;color:#ddd6fe;background:#7c3aed22}
+.bio{font-size:15px;color:#e9d5ff;margin:6px 0 22px;line-height:1.4}
+a.l{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--bd);
+  border-radius:16px;padding:14px 16px;margin:0 0 12px;text-align:left;transition:transform .12s,background .12s;backdrop-filter:blur(6px)}
+a.l:hover,a.l:focus-visible{transform:translateY(-2px);background:#ffffff1c;outline:none}
+a.l.hi{background:linear-gradient(90deg,#f472b6,#a78bfa);border-color:transparent;color:#1a0b2e}
+a.l.hi .s{color:#2e1065}
+.ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#ffffff1a;flex:none}
+a.l.hi .ic{background:#ffffff55}
+.ic svg{width:20px;height:20px}
+.t{font-weight:700;font-size:16px}.s{font-size:13px;color:var(--mut);margin-top:2px}
+footer{margin-top:24px;font-size:12px;color:#a78bfa99}
+</style>
+</head>
+<body>
+<main>
+  <img class="av" id="av" alt="Luna, an AI-generated creator" src="luna-avatar.jpg">
+  <h1 id="nm">Luna</h1>
+  <div class="h" id="hd"></div>
+  <div class="ai" id="ai">AI-generated creator</div>
+  <p class="bio" id="bio"></p>
+  <nav id="links" aria-label="Links"></nav>
+  <footer>Luna is an AI-generated character. Made by Altiq Studio.</footer>
+</main>
+<script>
+const ICONS = {
+  gift: '<path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zm0 0h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/>',
+  tag: '<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/>',
+  shop: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/>',
+  ig: '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/>',
+  tiktok: '<path d="M16 3c.5 2.5 2 4 5 4v4c-2 0-3.6-.6-5-1.6V16a6 6 0 1 1-6-6v4a2 2 0 1 0 2 2V3z"/>',
+  cash: '<path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+  link: '<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>'
+};
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+const ok = u => /^https:\/\//.test(u || "");
+fetch("links.json", {cache: "no-store"}).then(r => r.json()).then(d => {
+  document.getElementById("nm").textContent = d.name;
+  document.getElementById("hd").textContent = d.handle || "";
+  document.getElementById("bio").textContent = d.bio || "";
+  if (d.ai_label) document.getElementById("ai").textContent = d.ai_label;
+  if (d.avatar) document.getElementById("av").src = d.avatar;
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById("links").innerHTML = (d.links || [])
+    .filter(l => ok(l.url) && (!l.until || l.until >= today))   // links without a URL or past their end date stay hidden
+    .map(l => `<a class="l${l.highlight ? " hi" : ""}" href="${esc(l.url)}" target="_blank" rel="noopener">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[l.icon] || ICONS.link}</svg></span>
+      <span><span class="t">${esc(l.label)}</span>${l.sub ? `<div class="s">${esc(l.sub)}</div>` : ""}</span></a>`).join("");
+}).catch(() => { document.getElementById("links").innerHTML = '<a class="l" href="https://altiq07.github.io/">Shop Altiq Studio</a>'; });
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "Luna",
+  "handle": "@luna_knight07",
+  "avatar": "luna-avatar.jpg",
+  "bio": "AI creator from Chicago · fit checks, coffee mornings, neon gaming nights",
+  "ai_label": "AI-generated creator",
+  "links": [
+    {"label": "Free stream panels (7 styles)", "sub": "Try every style on your Twitch or Kick page", "url": "https://altiq.itch.io/free-stream-panel-sampler", "icon": "gift", "highlight": true},
+    {"label": "Launch week: all 7 packs for $14.99", "sub": "60% off until Oct 19", "url": "https://itch.io/s/204294/launch-week-60-off-every-panel-pack", "icon": "tag", "until": "2026-10-19"},
+    {"label": "Shop Altiq Studio", "sub": "Stream panels for Twitch & Kick", "url": "https://altiq07.github.io/", "icon": "shop"},
+    {"label": "Instagram", "sub": "@luna_knight07", "url": "https://www.instagram.com/luna_knight07/", "icon": "ig"},
+    {"label": "Tip jar (Cash App)", "sub": "Support the project", "url": "", "icon": "cash"}
+  ]
+}
